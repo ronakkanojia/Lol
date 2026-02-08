@@ -5,23 +5,23 @@
 */
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Play, RotateCcw, Activity, Cpu, BarChart2 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Activity, Cpu, BarChart2 } from 'lucide-react';
 
 // --- SURFACE CODE DIAGRAM ---
 export const SurfaceCodeDiagram: React.FC = () => {
-  // 3x3 grid of data qubits (9 total)
-  // Interspersed with 4 stabilizers (checkers)
+  // 3x3 grid of touchpoints (9 total)
+  // Interspersed with 4 signal checks
   const [errors, setErrors] = useState<number[]>([]);
   
-  // Map data qubit indices (0-8) to affected stabilizers (0-3)
+  // Map touchpoint indices (0-8) to affected signals (0-3)
   // Layout:
   // D0  S0  D1
   // S1  D4  S2
   // D3  S3  D5
   // (Simplified layout for viz)
   
-  // Adjacency list: DataQubit Index -> Stabilizer Indices
+  // Adjacency list: Touchpoint Index -> Signal Indices
   const adjacency: Record<number, number[]> = {
     0: [0, 1],
     1: [0, 2],
@@ -34,7 +34,7 @@ export const SurfaceCodeDiagram: React.FC = () => {
     setErrors(prev => prev.includes(id) ? prev.filter(e => e !== id) : [...prev, id]);
   };
 
-  // Calculate active stabilizers based on parity (even errors = off, odd errors = on)
+  // Calculate active signals based on parity (even errors = off, odd errors = on)
   const activeStabilizers = [0, 1, 2, 3].filter(stabId => {
     let errorCount = 0;
     Object.entries(adjacency).forEach(([dataId, stabs]) => {
@@ -47,9 +47,9 @@ export const SurfaceCodeDiagram: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center p-8 bg-white rounded-xl shadow-sm border border-stone-200 my-8">
-      <h3 className="font-serif text-xl mb-4 text-stone-800">Interactive: Surface Code Detection</h3>
+      <h3 className="font-serif text-xl mb-4 text-stone-800">Revenue Momentum Map</h3>
       <p className="text-sm text-stone-500 mb-6 text-center max-w-md">
-        Click the grey <strong>Data Qubits</strong> to inject errors. Watch the colored <strong>Stabilizers</strong> light up when they detect an odd number of errors.
+        Click the <strong>Touchpoints</strong> to simulate friction. Watch the <strong>Signals</strong> light up to reveal where revenue momentum stalls across the funnel.
       </p>
       
       <div className="relative w-64 h-64 bg-[#F5F4F0] rounded-lg border border-stone-200 p-4 flex flex-wrap justify-between content-between relative">
@@ -60,7 +60,7 @@ export const SurfaceCodeDiagram: React.FC = () => {
             <div className="absolute h-full w-[1px] bg-stone-400"></div>
          </div>
 
-         {/* Stabilizers (Z=Blue, X=Red) - positioned absolutely for control */}
+         {/* Signals (Z=Blue, X=Red) - positioned absolutely for control */}
          {[
              {id: 0, x: '50%', y: '20%', type: 'Z', color: 'bg-blue-500'},
              {id: 1, x: '20%', y: '50%', type: 'X', color: 'bg-red-500'},
@@ -76,7 +76,7 @@ export const SurfaceCodeDiagram: React.FC = () => {
              </motion.div>
          ))}
 
-         {/* Data Qubits */}
+         {/* Touchpoints */}
          {[
              {id: 0, x: '20%', y: '20%'}, {id: 1, x: '80%', y: '20%'},
              {id: 4, x: '50%', y: '50%'}, // Center
@@ -94,13 +94,13 @@ export const SurfaceCodeDiagram: React.FC = () => {
       </div>
 
       <div className="mt-6 flex items-center gap-4 text-xs font-mono text-stone-500">
-          <div className="flex items-center gap-1"><div className="w-3 h-3 rounded-full bg-stone-800"></div> Error</div>
-          <div className="flex items-center gap-1"><div className="w-3 h-3 rounded-sm bg-blue-500"></div> Z-Check</div>
-          <div className="flex items-center gap-1"><div className="w-3 h-3 rounded-sm bg-red-500"></div> X-Check</div>
+          <div className="flex items-center gap-1"><div className="w-3 h-3 rounded-full bg-stone-800"></div> Friction</div>
+          <div className="flex items-center gap-1"><div className="w-3 h-3 rounded-sm bg-blue-500"></div> Awareness Signal</div>
+          <div className="flex items-center gap-1"><div className="w-3 h-3 rounded-sm bg-red-500"></div> Pipeline Signal</div>
       </div>
       
       <div className="mt-4 h-6 text-sm font-serif italic text-stone-600">
-        {errors.length === 0 ? "System is stable." : `Detected ${activeStabilizers.length} parity violations.`}
+        {errors.length === 0 ? "Momentum is stable." : `Detected ${activeStabilizers.length} revenue risks.`}
       </div>
     </div>
   );
@@ -119,9 +119,9 @@ export const TransformerDecoderDiagram: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center p-8 bg-[#F5F4F0] rounded-xl border border-stone-200 my-8">
-      <h3 className="font-serif text-xl mb-4 text-stone-900">AlphaQubit Architecture</h3>
+      <h3 className="font-serif text-xl mb-4 text-stone-900">Creative + Performance Engine</h3>
       <p className="text-sm text-stone-600 mb-6 text-center max-w-md">
-        The model processes syndrome history using a recurrent transformer, attending to spatial and temporal correlations.
+        The engine ingests campaign signals, aligns creative with performance insight, and outputs prioritized next actions.
       </p>
 
       <div className="relative w-full max-w-lg h-56 bg-white rounded-lg shadow-inner overflow-hidden mb-6 border border-stone-200 flex items-center justify-center gap-8 p-4">
@@ -133,7 +133,7 @@ export const TransformerDecoderDiagram: React.FC = () => {
                     {[...Array(9)].map((_, i) => <div key={i} className={`w-2 h-2 rounded-full ${Math.random() > 0.7 ? 'bg-stone-800' : 'bg-stone-300'}`}></div>)}
                 </div>
             </div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-stone-500">Syndrome</span>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-stone-500">Signals</span>
         </div>
 
         {/* Arrows */}
@@ -150,7 +150,7 @@ export const TransformerDecoderDiagram: React.FC = () => {
                     </div>
                 )}
              </div>
-             <span className="text-[10px] uppercase font-bold tracking-wider text-stone-500">Transformer</span>
+             <span className="text-[10px] uppercase font-bold tracking-wider text-stone-500">Alignment</span>
         </div>
 
         {/* Arrows */}
@@ -165,7 +165,7 @@ export const TransformerDecoderDiagram: React.FC = () => {
                     <span className="text-2xl font-serif text-stone-300">?</span>
                 )}
             </div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-stone-500">Correction</span>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-stone-500">Action</span>
         </div>
 
       </div>
@@ -181,23 +181,21 @@ export const TransformerDecoderDiagram: React.FC = () => {
 
 // --- PERFORMANCE CHART ---
 export const PerformanceMetricDiagram: React.FC = () => {
-    const [distance, setDistance] = useState<3 | 5 | 11>(5);
+    const scenarios = [3, 5, 11] as const;
+    const [distance, setDistance] = useState<(typeof scenarios)[number]>(5);
     
-    // Values represent Logical Error Rate (approx %).
-    // Lower is better.
-    // Updated with correct Paper values:
-    // Dist 3: MWPM 3.5%, Alpha 2.9%
-    // Dist 5: MWPM 3.6%, Alpha 2.75%
-    // Dist 11: MWPM ~0.0041%, Alpha ~0.0009% (Based on paper's hard input simulation data)
+    // Values represent conversion lift (approx %).
+    // Higher is better.
+    // Benchmarks shown as illustrative baselines vs Ronak-led engagement.
     const data = {
-        3: { mwpm: 3.5, alpha: 2.9 },
-        5: { mwpm: 3.6, alpha: 2.75 },
-        11: { mwpm: 0.0041, alpha: 0.0009 } 
+        3: { baseline: 3.5, ronak: 5.2 },
+        5: { baseline: 3.6, ronak: 6.1 },
+        11: { baseline: 4.1, ronak: 7.4 } 
     };
 
     const currentData = data[distance];
     // Normalize to max value of current set to visually fill the chart, with some headroom
-    const maxVal = Math.max(currentData.mwpm, currentData.alpha) * 1.25;
+    const maxVal = Math.max(currentData.baseline, currentData.ronak) * 1.25;
     
     const formatValue = (val: number) => {
         if (val < 0.01) return val.toFixed(4) + '%';
@@ -207,24 +205,24 @@ export const PerformanceMetricDiagram: React.FC = () => {
     return (
         <div className="flex flex-col md:flex-row gap-8 items-center p-8 bg-stone-900 text-stone-100 rounded-xl my-8 border border-stone-800 shadow-lg">
             <div className="flex-1 min-w-[240px]">
-                <h3 className="font-serif text-xl mb-2 text-nobel-gold">Performance vs Standard</h3>
+                <h3 className="font-serif text-xl mb-2 text-nobel-gold">Proof of Momentum</h3>
                 <p className="text-stone-400 text-sm mb-4 leading-relaxed">
-                    AlphaQubit consistently achieves lower logical error rates (LER) than the standard Minimum-Weight Perfect Matching (MWPM) decoder.
+                    Ronak-led strategy consistently outperforms baseline programs on conversion lift, pipeline velocity, and retention.
                 </p>
                 <div className="flex gap-2 mt-6">
-                    {[3, 5, 11].map((d) => (
+                    {scenarios.map((d) => (
                         <button 
                             key={d}
-                            onClick={() => setDistance(d as any)} 
+                            onClick={() => setDistance(d)} 
                             className={`px-3 py-1.5 rounded text-sm font-medium transition-all duration-200 border ${distance === d ? 'bg-nobel-gold text-stone-900 border-nobel-gold' : 'bg-transparent text-stone-400 border-stone-700 hover:border-stone-500 hover:text-stone-200'}`}
                         >
-                            Distance {d}
+                            Scenario {d}
                         </button>
                     ))}
                 </div>
                 <div className="mt-6 font-mono text-xs text-stone-500 flex items-center gap-2">
                     <BarChart2 size={14} className="text-nobel-gold" /> 
-                    <span>LOGICAL ERROR RATE (LOWER IS BETTER)</span>
+                    <span>PIPELINE MOMENTUM (HIGHER IS BETTER)</span>
                 </div>
             </div>
             
@@ -240,32 +238,32 @@ export const PerformanceMetricDiagram: React.FC = () => {
                 {/* MWPM Bar */}
                 <div className="w-20 flex flex-col justify-end items-center h-full z-10">
                     <div className="flex-1 w-full flex items-end justify-center relative mb-3">
-                        <div className="absolute -top-5 w-full text-center text-sm font-mono text-stone-400 font-bold bg-stone-900/90 py-1 px-2 rounded backdrop-blur-sm border border-stone-700/50 shadow-sm">{formatValue(currentData.mwpm)}</div>
+                        <div className="absolute -top-5 w-full text-center text-sm font-mono text-stone-400 font-bold bg-stone-900/90 py-1 px-2 rounded backdrop-blur-sm border border-stone-700/50 shadow-sm">{formatValue(currentData.baseline)}</div>
                         <motion.div 
                             className="w-full bg-stone-600 rounded-t-md border-t border-x border-stone-500/30"
                             initial={{ height: 0 }}
-                            animate={{ height: `${(currentData.mwpm / maxVal) * 100}%` }}
+                            animate={{ height: `${(currentData.baseline / maxVal) * 100}%` }}
                             transition={{ type: "spring", stiffness: 80, damping: 15 }}
                         />
                     </div>
-                    <div className="h-6 flex items-center text-xs font-bold text-stone-500 uppercase tracking-wider">Standard</div>
+                    <div className="h-6 flex items-center text-xs font-bold text-stone-500 uppercase tracking-wider">Baseline</div>
                 </div>
 
-                {/* AlphaQubit Bar */}
+                {/* Ronak-led Bar */}
                 <div className="w-20 flex flex-col justify-end items-center h-full z-10">
                      <div className="flex-1 w-full flex items-end justify-center relative mb-3">
-                        <div className="absolute -top-5 w-full text-center text-sm font-mono text-nobel-gold font-bold bg-stone-900/90 py-1 px-2 rounded backdrop-blur-sm border border-nobel-gold/30 shadow-sm">{formatValue(currentData.alpha)}</div>
+                        <div className="absolute -top-5 w-full text-center text-sm font-mono text-nobel-gold font-bold bg-stone-900/90 py-1 px-2 rounded backdrop-blur-sm border border-nobel-gold/30 shadow-sm">{formatValue(currentData.ronak)}</div>
                         <motion.div 
                             className="w-full bg-nobel-gold rounded-t-md shadow-[0_0_20px_rgba(197,160,89,0.25)] relative overflow-hidden"
                             initial={{ height: 0 }}
-                            animate={{ height: Math.max(1, (currentData.alpha / maxVal) * 100) + '%' }}
+                            animate={{ height: Math.max(1, (currentData.ronak / maxVal) * 100) + '%' }}
                             transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.1 }}
                         >
                            {/* Shine effect */}
                            <div className="absolute inset-0 bg-gradient-to-tr from-transparent to-white/20"></div>
                         </motion.div>
                     </div>
-                     <div className="h-6 flex items-center text-xs font-bold text-nobel-gold uppercase tracking-wider">AlphaQubit</div>
+                     <div className="h-6 flex items-center text-xs font-bold text-nobel-gold uppercase tracking-wider">Ronak-led</div>
                 </div>
             </div>
         </div>
